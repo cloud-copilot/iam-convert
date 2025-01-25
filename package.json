@@ -1,0 +1,55 @@
+{
+  "name": "@cloud-copilot/iam-convert",
+  "version": "0.1.1",
+  "description": "Convert AWS IAM JSON policies to other formats",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cloud-copilot/iam-convert.git"
+  },
+  "exports": {
+    ".": {
+      "import": "./dist/esm/index.js",
+      "require": "./dist/cjs/index.js"
+    }
+  },
+  "files": [
+    "dist/**/*"
+  ],
+  "types": "dist/cjs/index.d.ts",
+  "bin": {
+    "iam-convert": "dist/esm/cli.js"
+  },
+  "scripts": {
+    "build": "npx tsc -p tsconfig.cjs.json && npx tsc -p tsconfig.esm.json && ./postbuild.sh",
+    "clean": "rm -rf dist",
+    "test": "npx vitest --run --coverage",
+    "release": "npm run clean && npm run build && npm run test && npm run format-check && npm publish",
+    "format": "npx prettier --write src/",
+    "format-check": "npx prettier --check src/"
+  },
+  "keywords": [
+    "AWS",
+    "IAM",
+    "terraform",
+    "cloudformation",
+    "cdk"
+  ],
+  "author": "David Kerber <dave@cloudcopilot.io>",
+  "license": "AGPL-3.0-or-later",
+  "bugs": {
+    "url": "https://github.com/cloud-copilot/iam-convert/issues"
+  },
+  "homepage": "https://github.com/cloud-copilot/iam-convert#readme",
+  "devDependencies": {
+    "@cloud-copilot/prettier-config": "^0.1.1",
+    "@types/node": "^22.5.0",
+    "@vitest/coverage-v8": "^2.0.5",
+    "typescript": "^5.5.4",
+    "vitest": "^2.0.5"
+  },
+  "dependencies": {
+    "@cloud-copilot/cli": "^0.1.1",
+    "@cloud-copilot/iam-policy": "^0.1.12"
+  },
+  "prettier": "@cloud-copilot/prettier-config"
+}
