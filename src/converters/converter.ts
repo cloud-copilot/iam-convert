@@ -1,5 +1,5 @@
-import { Policy } from "@cloud-copilot/iam-policy";
-import { StringBuffer } from "../util/StringBuffer.js";
+import { Policy } from '@cloud-copilot/iam-policy'
+import { StringBuffer } from '../util/StringBuffer.js'
 
 export interface Converter {
   /**
@@ -8,5 +8,5 @@ export interface Converter {
    * @param policy the policy to convert
    * @param buffer the buffer to write the result to
    */
-  convert(policy: Policy, buffer: StringBuffer): void;
+  convert(policy: Policy, buffer: StringBuffer): void
 }
