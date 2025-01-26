@@ -1,4 +1,5 @@
 import { Policy } from '@cloud-copilot/iam-policy'
+import { CloudFormationConverter } from './converters/cloudFormation.js'
 import { TerraformConverter } from './converters/terraform.js'
 import { defaultOptions } from './defaults.js'
 import { StringBuffer } from './util/StringBuffer.js'
@@ -7,7 +8,8 @@ const converters = {
   /**
    * Convert to Terraform
    */
-  tf: TerraformConverter
+  tf: TerraformConverter,
+  cf: CloudFormationConverter
 }
 
 /**
