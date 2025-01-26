@@ -28,7 +28,7 @@ async function run() {
         description: 'The format to convert to',
         type: 'enum',
         values: 'single',
-        validValues: ['tf']
+        validValues: ['tf', 'cf']
       },
       file: {
         description: 'A file to read the policy from. If not provided, stdin is used',
@@ -77,7 +77,7 @@ async function run() {
 
   const policy = loadPolicy(json)
   const format = cli.args.format || 'tf'
-  const result = convert(policy, 'tf', {
+  const result = convert(policy, format, {
     indentBy: cli.args.indentBy,
     lineSeparator: cli.args.lineSeparator == 'crlf' ? `\r\n` : undefined
   })
