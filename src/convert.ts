@@ -1,4 +1,5 @@
 import { Policy } from '@cloud-copilot/iam-policy'
+import { CdkTypescriptConverter } from './converters/cdkTypescript.js'
 import { CloudFormationConverter } from './converters/cloudFormation.js'
 import { TerraformConverter } from './converters/terraform.js'
 import { defaultOptions } from './defaults.js'
@@ -9,7 +10,8 @@ const converters = {
    * Convert to Terraform
    */
   tf: TerraformConverter,
-  cf: CloudFormationConverter
+  cf: CloudFormationConverter,
+  'cdk-ts': CdkTypescriptConverter
 }
 
 /**
