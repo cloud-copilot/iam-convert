@@ -28,7 +28,7 @@ async function run() {
         description: 'The format to convert to',
         type: 'enum',
         values: 'single',
-        validValues: ['tf', 'cf', 'cdk-ts']
+        validValues: ['tf', 'cf', 'cdk-ts', 'cdk-py']
       },
       file: {
         description: 'A file to read the policy from. If not provided, stdin is used',

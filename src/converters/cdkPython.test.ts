@@ -1,9 +1,9 @@
 import { loadPolicy } from '@cloud-copilot/iam-policy'
 import { describe, expect, it } from 'vitest'
 import { StringBuffer } from '../util/StringBuffer.js'
-import { CdkTypescriptConverter } from './cdkTypescript.js'
+import { CdkPythonConverter } from './cdkPython.js'
 
-const cdkTypescriptConverterTests: {
+const cdkPythonConverterTests: {
   name: string
   only?: boolean
   policy: any
@@ -15,28 +15,12 @@ const cdkTypescriptConverterTests: {
       Statement: {}
     },
     expected: [
-      'const policyDocument = new iam.PolicyDocument({',
-      '  statements: [',
-      '    new iam.PolicyStatement({',
-      '    })',
-      '  ]',
-      '});'
-    ]
-  },
-
-  {
-    name: 'should ignore a policy version',
-    policy: {
-      Version: '2008-10-17',
-      Statement: {}
-    },
-    expected: [
-      'const policyDocument = new iam.PolicyDocument({',
-      '  statements: [',
-      '    new iam.PolicyStatement({',
-      '    })',
-      '  ]',
-      '});'
+      'policy_document = iam.PolicyDocument(',
+      '  statements=[',
+      '    iam.PolicyStatement(',
+      '    ),',
+      '  ],',
+      ')'
     ]
   },
   {
@@ -45,14 +29,14 @@ const cdkTypescriptConverterTests: {
       Statement: [{}, {}]
     },
     expected: [
-      'const policyDocument = new iam.PolicyDocument({',
-      '  statements: [',
-      '    new iam.PolicyStatement({',
-      '    }),',
-      '    new iam.PolicyStatement({',
-      '    })',
-      '  ]',
-      '});'
+      'policy_document = iam.PolicyDocument(',
+      '  statements=[',
+      '    iam.PolicyStatement(',
+      '    ),',
+      '    iam.PolicyStatement(',
+      '    ),',
+      '  ],',
+      ')'
     ]
   },
   {
@@ -68,16 +52,16 @@ const cdkTypescriptConverterTests: {
       ]
     },
     expected: [
-      'const policyDocument = new iam.PolicyDocument({',
-      '  statements: [',
-      '    new iam.PolicyStatement({',
-      '      sid: \"test1\",',
-      '    }),',
-      '    new iam.PolicyStatement({',
-      '      sid: \"test2\",',
-      '    })',
-      '  ]',
-      '});'
+      'policy_document = iam.PolicyDocument(',
+      '  statements=[',
+      '    iam.PolicyStatement(',
+      '      sid="test1",',
+      '    ),',
+      '    iam.PolicyStatement(',
+      '      sid="test2",',
+      '    ),',
+      '  ],',
+      ')'
     ]
   },
   {
@@ -93,16 +77,15 @@ const cdkTypescriptConverterTests: {
       ]
     },
     expected: [
-      'const policyDocument = new iam.PolicyDocument({',
-      '  statements: [',
-      '    new iam.PolicyStatement({',
-      '      effect: iam.Effect.ALLOW,',
-      '    }),',
-      '    new iam.PolicyStatement({',
-      '      effect: iam.Effect.DENY,',
-      '    })',
-      '  ]',
-      '});'
+      'policy_document = iam.PolicyDocument(',
+      '  statements=[',
+      '    iam.PolicyStatement(',
+      '    ),',
+      '    iam.PolicyStatement(',
+      '      effect=Effect.DENY,',
+      '    ),',
+      '  ],',
+      ')'
     ]
   },
   {
@@ -118,21 +101,21 @@ const cdkTypescriptConverterTests: {
       ]
     },
     expected: [
-      'const policyDocument = new iam.PolicyDocument({',
-      '  statements: [',
-      '    new iam.PolicyStatement({',
-      '      actions: [',
+      'policy_document = iam.PolicyDocument(',
+      '  statements=[',
+      '    iam.PolicyStatement(',
+      '      actions=[',
       '        "s3:ListBucket",',
-      '        "s3:GetObject"',
+      '        "s3:GetObject",',
       '      ],',
-      '    }),',
-      '    new iam.PolicyStatement({',
-      '      actions: [',
-      '        "s3:ListBucket"',
+      '    ),',
+      '    iam.PolicyStatement(',
+      '      actions=[',
+      '        "s3:ListBucket",',
       '      ],',
-      '    })',
-      '  ]',
-      '});'
+      '    ),',
+      '  ],',
+      ')'
     ]
   },
   {
@@ -148,21 +131,21 @@ const cdkTypescriptConverterTests: {
       ]
     },
     expected: [
-      'const policyDocument = new iam.PolicyDocument({',
-      '  statements: [',
-      '    new iam.PolicyStatement({',
-      '      notActions: [',
+      'policy_document = iam.PolicyDocument(',
+      '  statements=[',
+      '    iam.PolicyStatement(',
+      '      not_actions=[',
       '        "s3:ListBucket",',
-      '        "s3:GetObject"',
+      '        "s3:GetObject",',
       '      ],',
-      '    }),',
-      '    new iam.PolicyStatement({',
-      '      notActions: [',
-      '        "s3:ListBucket"',
+      '    ),',
+      '    iam.PolicyStatement(',
+      '      not_actions=[',
+      '        "s3:ListBucket",',
       '      ],',
-      '    })',
-      '  ]',
-      '});'
+      '    ),',
+      '  ],',
+      ')'
     ]
   },
   {
@@ -178,21 +161,21 @@ const cdkTypescriptConverterTests: {
       ]
     },
     expected: [
-      'const policyDocument = new iam.PolicyDocument({',
-      '  statements: [',
-      '    new iam.PolicyStatement({',
-      '      resources: [',
+      'policy_document = iam.PolicyDocument(',
+      '  statements=[',
+      '    iam.PolicyStatement(',
+      '      resources=[',
       '        "arn:aws:s3:::test1",',
       '        "arn:aws:s3:::test2",',
       '      ],',
-      '    }),',
-      '    new iam.PolicyStatement({',
-      '      resources: [',
+      '    ),',
+      '    iam.PolicyStatement(',
+      '      resources=[',
       '        "arn:aws:s3:::test3",',
       '      ],',
-      '    })',
-      '  ]',
-      '});'
+      '    ),',
+      '  ],',
+      ')'
     ]
   },
   {
@@ -208,21 +191,21 @@ const cdkTypescriptConverterTests: {
       ]
     },
     expected: [
-      'const policyDocument = new iam.PolicyDocument({',
-      '  statements: [',
-      '    new iam.PolicyStatement({',
-      '      notResources: [',
+      'policy_document = iam.PolicyDocument(',
+      '  statements=[',
+      '    iam.PolicyStatement(',
+      '      not_resources=[',
       '        "arn:aws:s3:::test1",',
       '        "arn:aws:s3:::test2",',
       '      ],',
-      '    }),',
-      '    new iam.PolicyStatement({',
-      '      notResources: [',
+      '    ),',
+      '    iam.PolicyStatement(',
+      '      not_resources=[',
       '        "arn:aws:s3:::test3",',
       '      ],',
-      '    })',
-      '  ]',
-      '});'
+      '    ),',
+      '  ],',
+      ')'
     ]
   },
   {
@@ -235,13 +218,13 @@ const cdkTypescriptConverterTests: {
       ]
     },
     expected: [
-      'const policyDocument = new iam.PolicyDocument({',
-      '  statements: [',
-      '    new iam.PolicyStatement({',
-      '      principals: [new iam.StarPrincipal()],',
-      '    })',
-      '  ]',
-      '});'
+      'policy_document = iam.PolicyDocument(',
+      '  statements=[',
+      '    iam.PolicyStatement(',
+      '      principals=[iam.StarPrincipal()],',
+      '    ),',
+      '  ],',
+      ')'
     ]
   },
   {
@@ -256,16 +239,16 @@ const cdkTypescriptConverterTests: {
       ]
     },
     expected: [
-      'const policyDocument = new iam.PolicyDocument({',
-      '  statements: [',
-      '    new iam.PolicyStatement({',
-      '      principals: [',
-      '        new iam.ArnPrincipal("arn:aws:iam::123456789012:user/David"),',
-      '        new iam.ArnPrincipal("arn:aws:iam::123456789012:user/John"),',
+      'policy_document = iam.PolicyDocument(',
+      '  statements=[',
+      '    iam.PolicyStatement(',
+      '      principals=[',
+      '        iam.ArnPrincipal("arn:aws:iam::123456789012:user/David"),',
+      '        iam.ArnPrincipal("arn:aws:iam::123456789012:user/John"),',
       '      ],',
-      '    })',
-      '  ]',
-      '});'
+      '    ),',
+      '  ],',
+      ')'
     ]
   },
   {
@@ -280,16 +263,16 @@ const cdkTypescriptConverterTests: {
       ]
     },
     expected: [
-      'const policyDocument = new iam.PolicyDocument({',
-      '  statements: [',
-      '    new iam.PolicyStatement({',
-      '      principals: [',
-      '        new iam.ServicePrincipal("s3.amazonaws.com"),',
-      '        new iam.ServicePrincipal("ec2.amazonaws.com"),',
+      'policy_document = iam.PolicyDocument(',
+      '  statements=[',
+      '    iam.PolicyStatement(',
+      '      principals=[',
+      '        iam.ServicePrincipal("s3.amazonaws.com"),',
+      '        iam.ServicePrincipal("ec2.amazonaws.com"),',
       '      ],',
-      '    })',
-      '  ]',
-      '});'
+      '    ),',
+      '  ],',
+      ')'
     ]
   },
   {
@@ -304,15 +287,15 @@ const cdkTypescriptConverterTests: {
       ]
     },
     expected: [
-      'const policyDocument = new iam.PolicyDocument({',
-      '  statements: [',
-      '    new iam.PolicyStatement({',
-      '      principals: [',
-      '        new iam.FederatedPrincipal("arn:aws:iam::123456789012:saml-provider/MyProvider"),',
+      'policy_document = iam.PolicyDocument(',
+      '  statements=[',
+      '    iam.PolicyStatement(',
+      '      principals=[',
+      '        iam.FederatedPrincipal("arn:aws:iam::123456789012:saml-provider/MyProvider"),',
       '      ],',
-      '    })',
-      '  ]',
-      '});'
+      '    ),',
+      '  ],',
+      ')'
     ]
   },
   {
@@ -327,16 +310,16 @@ const cdkTypescriptConverterTests: {
       ]
     },
     expected: [
-      'const policyDocument = new iam.PolicyDocument({',
-      '  statements: [',
-      '    new iam.PolicyStatement({',
-      '      principals: [',
-      '        new iam.CanonicalUserPrincipal("arn:aws:s3:::test1"),',
-      '        new iam.CanonicalUserPrincipal("arn:aws:s3:::test2"),',
+      'policy_document = iam.PolicyDocument(',
+      '  statements=[',
+      '    iam.PolicyStatement(',
+      '      principals=[',
+      '        iam.ArnPrincipal("arn:aws:s3:::test1"),',
+      '        iam.ArnPrincipal("arn:aws:s3:::test2"),',
       '      ],',
-      '    })',
-      '  ]',
-      '});'
+      '    ),',
+      '  ],',
+      ')'
     ]
   },
   {
@@ -354,19 +337,19 @@ const cdkTypescriptConverterTests: {
       ]
     },
     expected: [
-      'const policyDocument = new iam.PolicyDocument({',
-      '  statements: [',
-      '    new iam.PolicyStatement({',
-      '      principals: [',
-      '        new iam.ArnPrincipal("arn:aws:iam::123456789012:user/David\"),',
-      '        new iam.ServicePrincipal("s3.amazonaws.com"),',
-      '        new iam.ServicePrincipal("ec2.amazonaws.com"),',
-      '        new iam.FederatedPrincipal("arn:aws:iam::123456789012:saml-provider/MyProvider"),',
-      '        new iam.CanonicalUserPrincipal("arn:aws:s3:::test1"),',
+      'policy_document = iam.PolicyDocument(',
+      '  statements=[',
+      '    iam.PolicyStatement(',
+      '      principals=[',
+      '        iam.ArnPrincipal("arn:aws:iam::123456789012:user/David"),',
+      '        iam.ServicePrincipal("s3.amazonaws.com"),',
+      '        iam.ServicePrincipal("ec2.amazonaws.com"),',
+      '        iam.FederatedPrincipal("arn:aws:iam::123456789012:saml-provider/MyProvider"),',
+      '        iam.ArnPrincipal("arn:aws:s3:::test1"),',
       '      ],',
-      '    })',
-      '  ]',
-      '});'
+      '    ),',
+      '  ],',
+      ')'
     ]
   },
   {
@@ -379,13 +362,13 @@ const cdkTypescriptConverterTests: {
       ]
     },
     expected: [
-      'const policyDocument = new iam.PolicyDocument({',
-      '  statements: [',
-      '    new iam.PolicyStatement({',
-      '      notPrincipals: [new iam.StarPrincipal()],',
-      '    })',
-      '  ]',
-      '});'
+      'policy_document = iam.PolicyDocument(',
+      '  statements=[',
+      '    iam.PolicyStatement(',
+      '      not_principals=[iam.StarPrincipal()],',
+      '    ),',
+      '  ],',
+      ')'
     ]
   },
   {
@@ -400,16 +383,16 @@ const cdkTypescriptConverterTests: {
       ]
     },
     expected: [
-      'const policyDocument = new iam.PolicyDocument({',
-      '  statements: [',
-      '    new iam.PolicyStatement({',
-      '      notPrincipals: [',
-      '        new iam.ServicePrincipal("s3.amazonaws.com"),',
-      '        new iam.ServicePrincipal("ec2.amazonaws.com"),',
+      'policy_document = iam.PolicyDocument(',
+      '  statements=[',
+      '    iam.PolicyStatement(',
+      '      not_principals=[',
+      '        iam.ServicePrincipal("s3.amazonaws.com"),',
+      '        iam.ServicePrincipal("ec2.amazonaws.com"),',
       '      ],',
-      '    })',
-      '  ]',
-      '});'
+      '    ),',
+      '  ],',
+      ')'
     ]
   },
   {
@@ -429,33 +412,33 @@ const cdkTypescriptConverterTests: {
       ]
     },
     expected: [
-      'const policyDocument = new iam.PolicyDocument({',
-      '  statements: [',
-      '    new iam.PolicyStatement({',
-      '      conditions: {',
-      '        StringEquals: {',
+      'policy_document = iam.PolicyDocument(',
+      '  statements=[',
+      '    iam.PolicyStatement(',
+      '      conditions={',
+      '        "StringEquals": {',
       '          "s3:x-amz-acl": [',
       '            "public-read",',
       '            "public-read-write",',
       '          ],',
       '        },',
-      '        StringLike: {',
+      '        "StringLike": {',
       '          "s3:prefix": "home/${aws:username}/",',
       '        },',
       '      },',
-      '    })',
-      '  ]',
-      '});'
+      '    ),',
+      '  ],',
+      ')'
     ]
   }
 ]
 
-describe('CDK TypeScript Converter', () => {
-  for (const test of cdkTypescriptConverterTests) {
+describe('Python CDK Converter', () => {
+  for (const test of cdkPythonConverterTests) {
     const func = test.only ? it.only : it
     const buffer = new StringBuffer()
     const policy = loadPolicy(test.policy)
-    new CdkTypescriptConverter().convert(policy, buffer)
+    new CdkPythonConverter().convert(policy, buffer)
 
     func(test.name, () => {
       expect(buffer.getBuffer()).toEqual(test.expected)
@@ -469,17 +452,17 @@ describe('CDK TypeScript Converter', () => {
     })
     const buffer = new StringBuffer()
 
-    //When it is converted to Terraform
-    new CdkTypescriptConverter().convert(policy, buffer)
+    //When it is converted to Python CDK
+    new CdkPythonConverter().convert(policy, buffer)
 
     //Then the result should be a Terraform aws_iam_policy_document data object
     expect(buffer.getBuffer()).toEqual([
-      'const policyDocument = new iam.PolicyDocument({',
-      '  statements: [',
-      '    new iam.PolicyStatement({',
-      '    })',
-      '  ]',
-      '});'
+      'policy_document = iam.PolicyDocument(',
+      '  statements=[',
+      '    iam.PolicyStatement(',
+      '    ),',
+      '  ],',
+      ')'
     ])
   })
 })

@@ -6,7 +6,10 @@ CLI and Node Library to convert JSON IAM Policy Documents to other formats for I
 
 ## Available Formats
 
-- Terraform - an aws_iam_policy_document data source
+- Terraform (tf) - an [aws_iam_policy_document](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy_document) data source
+- CloudFormation (cf) - a [PolicyDocument](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-iam-policy.html) resource in yaml
+- Typescript CDK (cdk-ts) - an [iam.PolicyDocument](https://docs.aws.amazon.com/cdk/api/v2/docs/aws-cdk-lib.aws_iam.PolicyDocument.html) from AWS CDK V2 aws-cdk-lib/aws-iam
+- Python CDK (cdk-py) - a [PolicyDocument](https://docs.aws.amazon.com/cdk/api/v2/python/aws_cdk.aws_iam/PolicyDocument.html) using AWS CDK V2 aws_cdk.aws_iam
 
 ## Installation
 

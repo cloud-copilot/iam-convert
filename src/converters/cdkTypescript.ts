@@ -125,7 +125,6 @@ export class CdkTypescriptConverter implements Converter {
 
   /**
    * For Principals, we create new iam.Principal-based classes (e.g. ArnPrincipal, ServicePrincipal).
-   * If a wildcard is found, we can use `new iam.AnyPrincipal()` in the 'principals' array.
    */
   private convertPrincipals(
     principals: Principal[],
@@ -135,7 +134,7 @@ export class CdkTypescriptConverter implements Converter {
   ) {
     if (hasSingleWildcard) {
       // If it is just "*", then new iam.AnyPrincipal()
-      sb.pushLine(`${propertyName}: [new iam.AnyPrincipal()],`)
+      sb.pushLine(`${propertyName}: [new iam.StarPrincipal()],`)
       return
     }
 
