@@ -238,7 +238,7 @@ const cdkTypescriptConverterTests: {
       'const policyDocument = new iam.PolicyDocument({',
       '  statements: [',
       '    new iam.PolicyStatement({',
-      '      principals: [new iam.AnyPrincipal()],',
+      '      principals: [new iam.StarPrincipal()],',
       '    })',
       '  ]',
       '});'
@@ -382,7 +382,7 @@ const cdkTypescriptConverterTests: {
       'const policyDocument = new iam.PolicyDocument({',
       '  statements: [',
       '    new iam.PolicyStatement({',
-      '      notPrincipals: [new iam.AnyPrincipal()],',
+      '      notPrincipals: [new iam.StarPrincipal()],',
       '    })',
       '  ]',
       '});'
