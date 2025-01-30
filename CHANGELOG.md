@@ -1,3 +1,16 @@
+## [0.1.6](https://github.com/cloud-copilot/iam-convert/compare/v0.1.5...v0.1.6) (2025-01-30)
+
+
+### Bug Fixes
+
+* cli help typo ([d488439](https://github.com/cloud-copilot/iam-convert/commit/d4884393806f41f5cac3553f414f1889ce3ba11e))
+
+
+### Features
+
+* Ability to specify the variable name that gets generated for a converted policy ([7e2e327](https://github.com/cloud-copilot/iam-convert/commit/7e2e3278d9f45a71c0bad8b89cbc1f2f12eb1be7))
+* simplifying cli argument for indention ([11507c0](https://github.com/cloud-copilot/iam-convert/commit/11507c02bdb526488648f09f665b7c8c68a66263))
+
 ## [0.1.5](https://github.com/cloud-copilot/iam-convert/compare/v0.1.4...v0.1.5) (2025-01-29)
 
 
