@@ -12,7 +12,7 @@ async function run() {
     {},
     {
       indentWith: {
-        description: 'The character to use for indentation, defaults to space',
+        description: 'The character to use for indentation, defaults to spaces',
         type: 'enum',
         values: 'single',
         validValues: ['spaces', 'tabs']
