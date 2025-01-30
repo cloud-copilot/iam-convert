@@ -11,10 +11,16 @@ async function run() {
     'iam-convert',
     {},
     {
+      indentWith: {
+        description: 'The character to use for indentation, defaults to space',
+        type: 'enum',
+        values: 'single',
+        validValues: ['spaces', 'tabs']
+      },
       indentBy: {
         description:
-          'The string to use for indentation, defaults to two spaces. Wrap values in quotes',
-        type: 'string',
+          'The number of indent characters to use, defaults to 2 for spaces and 1 for tabs',
+        type: 'number',
         values: 'single'
       },
       lineSeparator: {
@@ -78,7 +84,7 @@ async function run() {
   const policy = loadPolicy(json)
   const format = cli.args.format || 'tf'
   const result = convert(policy, format, {
-    indentBy: cli.args.indentBy,
+    indentBy: getIndent(cli.args.indentWith, cli.args.indentBy),
     lineSeparator: cli.args.lineSeparator == 'crlf' ? `\r\n` : undefined
   })
 
@@ -92,3 +98,10 @@ run()
   })
   .then(() => {})
   .finally(() => {})
+
+function getIndent(indentWith: 'tabs' | 'spaces' | undefined, indentBy: number | undefined) {
+  if (indentWith === 'tabs') {
+    return '\t'.repeat(indentBy == undefined ? 1 : indentBy)
+  }
+  return ' '.repeat(indentBy == undefined ? 2 : indentBy)
+}
