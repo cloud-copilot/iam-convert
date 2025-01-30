@@ -24,7 +24,7 @@ const converters = {
 export function convert(
   policy: Policy,
   format: keyof typeof converters,
-  options?: { indentBy?: string; lineSeparator?: string }
+  options?: { indentBy?: string; lineSeparator?: string; variableName?: string }
 ): string {
   if (!converters[format]) {
     throw new Error(`Unsupported format: ${format}`)
@@ -34,6 +34,6 @@ export function convert(
 
   const converter = new converters[format]()
   const stringBuffer = new StringBuffer(options.indentBy, options.lineSeparator)
-  converter.convert(policy, stringBuffer)
+  converter.convert(policy, stringBuffer, { variableName: options.variableName })
   return stringBuffer.toString()
 }

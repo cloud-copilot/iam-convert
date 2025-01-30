@@ -11,10 +11,16 @@ async function run() {
     'iam-convert',
     {},
     {
+      indentWith: {
+        description: 'The character to use for indentation, defaults to spaces',
+        type: 'enum',
+        values: 'single',
+        validValues: ['spaces', 'tabs']
+      },
       indentBy: {
         description:
-          'The string to use for indentation, defaults to two spaces. Wrap values in quotes',
-        type: 'string',
+          'The number of indent characters to use, defaults to 2 for spaces and 1 for tabs',
+        type: 'number',
         values: 'single'
       },
       lineSeparator: {
@@ -32,6 +38,12 @@ async function run() {
       },
       file: {
         description: 'A file to read the policy from. If not provided, stdin is used',
+        type: 'string',
+        values: 'single'
+      },
+      variableName: {
+        description:
+          'The variable name to use for the policy variable, default is different for each format',
         type: 'string',
         values: 'single'
       }
@@ -78,8 +90,9 @@ async function run() {
   const policy = loadPolicy(json)
   const format = cli.args.format || 'tf'
   const result = convert(policy, format, {
-    indentBy: cli.args.indentBy,
-    lineSeparator: cli.args.lineSeparator == 'crlf' ? `\r\n` : undefined
+    indentBy: getIndent(cli.args.indentWith, cli.args.indentBy),
+    lineSeparator: cli.args.lineSeparator == 'crlf' ? `\r\n` : undefined,
+    variableName: cli.args.variableName
   })
 
   console.log(result)
@@ -92,3 +105,10 @@ run()
   })
   .then(() => {})
   .finally(() => {})
+
+function getIndent(indentWith: 'tabs' | 'spaces' | undefined, indentBy: number | undefined) {
+  if (indentWith === 'tabs') {
+    return '\t'.repeat(indentBy == undefined ? 1 : indentBy)
+  }
+  return ' '.repeat(indentBy == undefined ? 2 : indentBy)
+}
