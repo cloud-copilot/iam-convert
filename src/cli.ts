@@ -40,6 +40,12 @@ async function run() {
         description: 'A file to read the policy from. If not provided, stdin is used',
         type: 'string',
         values: 'single'
+      },
+      variableName: {
+        description:
+          'The variable name to use for the policy variable, default is different for each format',
+        type: 'string',
+        values: 'single'
       }
     } as const,
     {
@@ -85,7 +91,8 @@ async function run() {
   const format = cli.args.format || 'tf'
   const result = convert(policy, format, {
     indentBy: getIndent(cli.args.indentWith, cli.args.indentBy),
-    lineSeparator: cli.args.lineSeparator == 'crlf' ? `\r\n` : undefined
+    lineSeparator: cli.args.lineSeparator == 'crlf' ? `\r\n` : undefined,
+    variableName: cli.args.variableName
   })
 
   console.log(result)

@@ -2,11 +2,13 @@ import { loadPolicy } from '@cloud-copilot/iam-policy'
 import { describe, expect, it } from 'vitest'
 import { StringBuffer } from '../util/StringBuffer.js'
 import { CdkTypescriptConverter } from './cdkTypescript.js'
+import { ConverterOptions } from './converter.js'
 
 const cdkTypescriptConverterTests: {
   name: string
   only?: boolean
   policy: any
+  options?: ConverterOptions
   expected: string[]
 }[] = [
   {
@@ -23,7 +25,23 @@ const cdkTypescriptConverterTests: {
       '});'
     ]
   },
-
+  {
+    name: 'should customize a variable name if provided',
+    policy: {
+      Statement: {}
+    },
+    options: {
+      variableName: 'trustPolicy'
+    },
+    expected: [
+      'const trustPolicy = new iam.PolicyDocument({',
+      '  statements: [',
+      '    new iam.PolicyStatement({',
+      '    })',
+      '  ]',
+      '});'
+    ]
+  },
   {
     name: 'should ignore a policy version',
     policy: {
@@ -455,7 +473,7 @@ describe('CDK TypeScript Converter', () => {
     const func = test.only ? it.only : it
     const buffer = new StringBuffer()
     const policy = loadPolicy(test.policy)
-    new CdkTypescriptConverter().convert(policy, buffer)
+    new CdkTypescriptConverter().convert(policy, buffer, test.options)
 
     func(test.name, () => {
       expect(buffer.getBuffer()).toEqual(test.expected)

@@ -2,11 +2,13 @@ import { loadPolicy } from '@cloud-copilot/iam-policy'
 import { describe, expect, it } from 'vitest'
 import { StringBuffer } from '../util/StringBuffer.js'
 import { CdkPythonConverter } from './cdkPython.js'
+import { ConverterOptions } from './converter.js'
 
 const cdkPythonConverterTests: {
   name: string
   only?: boolean
   policy: any
+  options?: ConverterOptions
   expected: string[]
 }[] = [
   {
@@ -16,6 +18,23 @@ const cdkPythonConverterTests: {
     },
     expected: [
       'policy_document = iam.PolicyDocument(',
+      '  statements=[',
+      '    iam.PolicyStatement(',
+      '    ),',
+      '  ],',
+      ')'
+    ]
+  },
+  {
+    name: 'should use a variable name if provided',
+    policy: {
+      Statement: {}
+    },
+    options: {
+      variableName: 'my_policy'
+    },
+    expected: [
+      'my_policy = iam.PolicyDocument(',
       '  statements=[',
       '    iam.PolicyStatement(',
       '    ),',
@@ -438,7 +457,7 @@ describe('Python CDK Converter', () => {
     const func = test.only ? it.only : it
     const buffer = new StringBuffer()
     const policy = loadPolicy(test.policy)
-    new CdkPythonConverter().convert(policy, buffer)
+    new CdkPythonConverter().convert(policy, buffer, test.options)
 
     func(test.name, () => {
       expect(buffer.getBuffer()).toEqual(test.expected)

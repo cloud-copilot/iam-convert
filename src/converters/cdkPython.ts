@@ -8,11 +8,13 @@ import { Converter } from './converter.js'
  *
  */
 export class CdkPythonConverter implements Converter {
-  convert(policy: Policy, sb: StringBuffer) {
+  convert(policy: Policy, sb: StringBuffer, options?: { variableName?: string }) {
     // sb.pushLine('import aws_cdk.aws_iam as iam')
     // sb.pushLine('')
 
-    sb.pushLine('policy_document = iam.PolicyDocument(')
+    const variableName = options?.variableName || 'policy_document'
+
+    sb.pushLine(`${variableName} = iam.PolicyDocument(`)
     sb.withIndent((docBuffer) => {
       docBuffer.pushLine('statements=[')
       docBuffer.withIndent((statementsBuffer) => {

@@ -1,12 +1,14 @@
 import { loadPolicy } from '@cloud-copilot/iam-policy'
 import { describe, expect, it } from 'vitest'
 import { StringBuffer } from '../util/StringBuffer.js'
+import { ConverterOptions } from './converter.js'
 import { TerraformConverter } from './terraform.js'
 
 const terraformConverterTests: {
   name: string
   only?: boolean
   policy: any
+  options?: ConverterOptions
   expected: string[]
 }[] = [
   {
@@ -22,7 +24,22 @@ const terraformConverterTests: {
       '}'
     ]
   },
-
+  {
+    name: 'should use a custom variable name if provided',
+    policy: {
+      Statement: {}
+    },
+    options: {
+      variableName: 'role_policy'
+    },
+    //prettier-ignore
+    expected: [
+      'data "aws_iam_policy_document" "role_policy" {',
+      '  statement {',
+      '  }',
+      '}'
+    ]
+  },
   {
     name: 'should add a policy version if there is one',
     policy: {
@@ -491,7 +508,7 @@ describe('Terraform Converter', () => {
     const func = test.only ? it.only : it
     const buffer = new StringBuffer()
     const policy = loadPolicy(test.policy)
-    new TerraformConverter().convert(policy, buffer)
+    new TerraformConverter().convert(policy, buffer, test.options)
 
     func(test.name, () => {
       expect(buffer.getBuffer()).toEqual(test.expected)

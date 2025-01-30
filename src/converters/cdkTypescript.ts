@@ -7,11 +7,13 @@ import { Converter } from './converter.js'
  * to build a new iam.PolicyDocument with multiple iam.PolicyStatement objects.
  */
 export class CdkTypescriptConverter implements Converter {
-  convert(policy: Policy, sb: StringBuffer) {
+  convert(policy: Policy, sb: StringBuffer, options?: { variableName?: string }) {
     // sb.pushLine("import * as iam from 'aws-cdk-lib/aws-iam';")
     // sb.pushLine('')
 
-    sb.pushLine('const policyDocument = new iam.PolicyDocument({')
+    const variableName = options?.variableName || 'policyDocument'
+
+    sb.pushLine(`const ${variableName} = new iam.PolicyDocument({`)
     sb.withIndent((docBuffer) => {
       docBuffer.pushLine('statements: [')
       docBuffer.withIndent((stmtsBuffer) => {

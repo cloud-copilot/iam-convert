@@ -6,8 +6,10 @@ import { Converter } from './converter.js'
  * Converts an IAM policy to a Terraform aws_iam_policy_document data object.
  */
 export class TerraformConverter implements Converter {
-  convert(policy: Policy, stringBuffer: StringBuffer) {
-    stringBuffer.pushLine(`data "aws_iam_policy_document" "policy" {`)
+  convert(policy: Policy, stringBuffer: StringBuffer, options?: { variableName?: string }) {
+    const variableName = options?.variableName || 'policy'
+
+    stringBuffer.pushLine(`data "aws_iam_policy_document" "${variableName}" {`)
     stringBuffer.withIndent((policyBuffer) => {
       if (policy.version() && policy.version() !== '2012-10-17') {
         policyBuffer.pushLine(`version = "${policy.version()}"`)
