@@ -62,3 +62,26 @@ jobs:
 
       - name: Check Tests
         run: npm test
+
+  guarddog:
+    permissions:
+      contents: read
+    name: GuardDog Check
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out the repository
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+
+      - name: Install GuardDog
+        run: pip install guarddog
+
+      - run: guarddog npm scan src/ --exit-non-zero-on-finding
+      - run: guarddog npm verify package.json --exclude-rules empty_information --output-format sarif --exit-non-zero-on-finding

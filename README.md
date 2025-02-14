@@ -1,6 +1,6 @@
 # iam-convert: Convert JSON Policy Documents to Markdown
 
-[![NPM Version](https://img.shields.io/npm/v/@cloud-copilot/iam-convert.svg?logo=nodedotjs)](https://www.npmjs.com/package/@cloud-copilot/iam-convert) [![License: AGPL v3](https://img.shields.io/github/license/cloud-copilot/iam-convert)](LICENSE.txt)
+[![NPM Version](https://img.shields.io/npm/v/@cloud-copilot/iam-convert.svg?logo=nodedotjs)](https://www.npmjs.com/package/@cloud-copilot/iam-convert) [![License: AGPL v3](https://img.shields.io/github/license/cloud-copilot/iam-convert)](LICENSE.txt) [![GuardDog](https://github.com/cloud-copilot/iam-convert/actions/workflows/guarddog.yml/badge.svg)](https://github.com/cloud-copilot/iam-convert/actions/workflows/guarddog.yml) [![Known Vulnerabilities](https://snyk.io/test/github/cloud-copilot/iam-convert/badge.svg?targetFile=package.json&style=flat-square)](https://snyk.io/test/github/cloud-copilot/iam-convert?targetFile=package.json)
 
 CLI and Node Library to convert JSON IAM Policy Documents to other formats for Infrastructure as Code.
 
