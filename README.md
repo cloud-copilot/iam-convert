@@ -11,6 +11,10 @@ CLI and Node Library to convert JSON IAM Policy Documents to other formats for I
 - Typescript CDK (cdk-ts) - an [iam.PolicyDocument](https://docs.aws.amazon.com/cdk/api/v2/docs/aws-cdk-lib.aws_iam.PolicyDocument.html) from AWS CDK V2 aws-cdk-lib/aws-iam
 - Python CDK (cdk-py) - a [PolicyDocument](https://docs.aws.amazon.com/cdk/api/v2/python/aws_cdk.aws_iam/PolicyDocument.html) using AWS CDK V2 aws_cdk.aws_iam
 
+## Use in Browser
+
+[https://iam.cloudcopilot.io/tools/iam-convert](https://iam.cloudcopilot.io/tools/iam-convert)
+
 ## Installation
 
 ```bash
