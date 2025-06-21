@@ -1,6 +1,6 @@
 {
   "name": "@cloud-copilot/iam-convert",
-  "version": "0.1.23",
+  "version": "0.1.24",
   "description": "Convert AWS IAM JSON policies to other formats",
   "repository": {
     "type": "git",
