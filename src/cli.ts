@@ -1,55 +1,58 @@
 #!/usr/bin/env node
 
-import { parseCliArguments, readStdin } from '@cloud-copilot/cli'
+import {
+  enumArgument,
+  numberArgument,
+  parseCliArguments,
+  readStdin,
+  stringArgument
+} from '@cloud-copilot/cli'
 import { loadPolicy, validatePolicySyntax } from '@cloud-copilot/iam-policy'
 import { existsSync, readFileSync } from 'fs'
 import { convert } from './convert.js'
 import { tryParseJson } from './util/json.js'
+import { getPackageFileReader } from './util/readPackageFile.js'
 
 async function run() {
-  const cli = parseCliArguments(
+  const cli = await parseCliArguments(
     'iam-convert',
     {},
     {
-      indentWith: {
-        description: 'The character to use for indentation, defaults to spaces',
-        type: 'enum',
-        values: 'single',
-        validValues: ['spaces', 'tabs']
-      },
-      indentBy: {
+      indentWith: enumArgument({
+        description: 'The character to use for indentation',
+        validValues: ['spaces', 'tabs'],
+        defaultValue: 'spaces'
+      }),
+      indentBy: numberArgument({
         description:
-          'The number of indent characters to use, defaults to 2 for spaces and 1 for tabs',
-        type: 'number',
-        values: 'single'
-      },
-      lineSeparator: {
+          'The number of indent characters to use, defaults to 2 for spaces and 1 for tabs'
+      }),
+      lineSeparator: enumArgument({
         description:
           'The string to use for new lines, defaults to "lf" (\\n). Use "crlf" for Windows style line endings',
-        type: 'enum',
-        values: 'single',
         validValues: ['lf', 'crlf']
-      },
-      format: {
+      }),
+      format: enumArgument({
         description: 'The format to convert to',
-        type: 'enum',
-        values: 'single',
         validValues: ['tf', 'cf', 'cdk-ts', 'cdk-py']
-      },
-      file: {
-        description: 'A file to read the policy from. If not provided, stdin is used',
-        type: 'string',
-        values: 'single'
-      },
-      variableName: {
+      }),
+      file: stringArgument({
+        description: 'A file to read the policy from. If not provided, stdin is used'
+      }),
+      variableName: stringArgument({
         description:
-          'The variable name to use for the policy variable, default is different for each format',
-        type: 'string',
-        values: 'single'
-      }
-    } as const,
+          'The variable name to use for the policy variable, default is different for each format'
+      })
+    },
     {
-      expectOperands: false
+      expectOperands: false,
+      version: {
+        currentVersion: async () => {
+          const pkgData = await getPackageFileReader().readFile(['package.json'])
+          return JSON.parse(pkgData).version
+        },
+        checkForUpdates: '@cloud-copilot/iam-convert'
+      }
     }
   )
 
