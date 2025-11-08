@@ -1,3 +1,5 @@
+## [0.1.43](https://github.com/cloud-copilot/iam-convert/compare/v0.1.42...v0.1.43) (2025-11-08)
+
 ## [0.1.42](https://github.com/cloud-copilot/iam-convert/compare/v0.1.41...v0.1.42) (2025-11-01)
 
 ## [0.1.41](https://github.com/cloud-copilot/iam-convert/compare/v0.1.40...v0.1.41) (2025-10-25)
