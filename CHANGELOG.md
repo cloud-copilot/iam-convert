@@ -1,3 +1,10 @@
+## [0.1.44](https://github.com/cloud-copilot/iam-convert/compare/v0.1.43...v0.1.44) (2025-11-09)
+
+
+### Bug Fixes
+
+* Remove GuardDog package scan ([8cbae53](https://github.com/cloud-copilot/iam-convert/commit/8cbae538c526558977e0f85a21c77b6f2a3d11b2))
+
 ## [0.1.43](https://github.com/cloud-copilot/iam-convert/compare/v0.1.42...v0.1.43) (2025-11-08)
 
 ## [0.1.42](https://github.com/cloud-copilot/iam-convert/compare/v0.1.41...v0.1.42) (2025-11-01)
