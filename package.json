@@ -56,7 +56,7 @@
   },
   "dependencies": {
     "@cloud-copilot/cli": "^0.2.2",
-    "@cloud-copilot/iam-policy": "^0.1.14"
+    "@cloud-copilot/iam-policy": "^0.1.67"
   },
   "prettier": "@cloud-copilot/prettier-config",
   "release": {
