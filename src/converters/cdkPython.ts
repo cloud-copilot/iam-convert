@@ -1,6 +1,12 @@
-import { Action, Condition, Policy, Principal, Resource } from '@cloud-copilot/iam-policy'
+import {
+  type Action,
+  type Condition,
+  type Policy,
+  type Principal,
+  type Resource
+} from '@cloud-copilot/iam-policy'
 import { StringBuffer } from '../util/StringBuffer.js'
-import { Converter } from './converter.js'
+import { type Converter } from './converter.js'
 
 /**
  * Converts an IAM policy into Python code for AWS CDK (using `aws_cdk.aws_iam`).

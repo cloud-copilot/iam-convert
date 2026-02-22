@@ -1,4 +1,4 @@
-import { Policy } from '@cloud-copilot/iam-policy'
+import { type Policy } from '@cloud-copilot/iam-policy'
 import { CdkPythonConverter } from './converters/cdkPython.js'
 import { CdkTypescriptConverter } from './converters/cdkTypescript.js'
 import { CloudFormationConverter } from './converters/cloudFormation.js'

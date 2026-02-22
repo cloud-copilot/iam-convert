@@ -13,6 +13,9 @@ import { convert } from './convert.js'
 import { tryParseJson } from './util/json.js'
 import { getPackageFileReader } from './util/readPackageFile.js'
 
+type ConvertFormat = Parameters<typeof convert>[1]
+type IndentWith = Parameters<typeof getIndent>[0]
+
 async function run() {
   const cli = await parseCliArguments(
     'iam-convert',
@@ -91,9 +94,9 @@ async function run() {
   }
 
   const policy = loadPolicy(json)
-  const format = cli.args.format || 'tf'
+  const format: ConvertFormat = (cli.args.format || 'tf') as ConvertFormat
   const result = convert(policy, format, {
-    indentBy: getIndent(cli.args.indentWith, cli.args.indentBy),
+    indentBy: getIndent(cli.args.indentWith as IndentWith, cli.args.indentBy),
     lineSeparator: cli.args.lineSeparator == 'crlf' ? `\r\n` : undefined,
     variableName: cli.args.variableName
   })
