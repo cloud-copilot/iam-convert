@@ -1,6 +1,6 @@
-import { Policy } from '@cloud-copilot/iam-policy'
+import { type Policy } from '@cloud-copilot/iam-policy'
 import { StringBuffer } from '../util/StringBuffer.js'
-import { Converter } from './converter.js'
+import { type Converter } from './converter.js'
 
 export class CloudFormationConverter implements Converter {
   convert(policy: Policy, sb: StringBuffer) {
