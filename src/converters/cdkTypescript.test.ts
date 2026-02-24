@@ -2,7 +2,7 @@ import { loadPolicy } from '@cloud-copilot/iam-policy'
 import { describe, expect, it } from 'vitest'
 import { StringBuffer } from '../util/StringBuffer.js'
 import { CdkTypescriptConverter } from './cdkTypescript.js'
-import { ConverterOptions } from './converter.js'
+import type { ConverterOptions } from './converter.js'
 
 const cdkTypescriptConverterTests: {
   name: string
