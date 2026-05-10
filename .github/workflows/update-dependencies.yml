@@ -9,8 +9,11 @@ jobs:
   update-dependencies:
     runs-on: ubuntu-latest
     permissions:
-      contents: write # Push branches
-      pull-requests: write # Create PRs
+      contents: write # Push branches, merge PRs, delete branches
+      pull-requests: write # Create and merge PRs
+      actions: write # Run check workflows
     steps:
       - name: Run dependency update
-        uses: cloud-copilot/update-dependencies@main
+        uses: cloud-copilot/action-update-dependencies@1733e6b4858bb0c19a5f7ee496c13c67407cdebc
+        with:
+          check-workflow: pr-checks.yml
