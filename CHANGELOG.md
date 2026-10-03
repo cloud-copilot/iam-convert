@@ -1,3 +1,5 @@
+## [0.1.95](https://github.com/act-security-labs/iam-convert/compare/v0.1.94...v0.1.95) (2026-10-03)
+
 ## [0.1.94](https://github.com/act-security-labs/iam-convert/compare/v0.1.93...v0.1.94) (2026-09-26)
 
 ## [0.1.93](https://github.com/act-security-labs/iam-convert/compare/v0.1.92...v0.1.93) (2026-09-24)
